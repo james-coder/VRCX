@@ -8,6 +8,7 @@ module.exports = {
         '^@/(.*)$': '<rootDir>/src/$1',
         '^vue-sonner$': '<rootDir>/__mocks__/vue-sonner.js',
         '\\.vue$': '<rootDir>/__mocks__/vue-component.js',
+        '^\\.\\./api$': '<rootDir>/__mocks__/api.js',
         '^\\.\\./\\.\\./api$': '<rootDir>/__mocks__/api.js',
         '^\\.\\./\\.\\./stores/location\\.js$': '<rootDir>/__mocks__/location-store.js'
     },
