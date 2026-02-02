@@ -101,6 +101,12 @@ describe('String Utils', () => {
             ).toBe('Hello ');
         });
 
+        test('removes leading markdown links', () => {
+            expect(changeLogRemoveLinks('[world](http://example.com)')).toBe(
+                ''
+            );
+        });
+
         test('preserves image links', () => {
             expect(changeLogRemoveLinks('![image](url)')).toBe('![image](url)');
         });
