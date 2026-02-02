@@ -43,6 +43,12 @@ describe('String Utils', () => {
             expect(result[0]).toBe('&#60;script&#62;');
             expect(result[1]).toBe('normal text');
         });
+
+        test('handles null values', () => {
+            const input = { value: null };
+            const result = escapeTagRecursive(input);
+            expect(result.value).toBeNull();
+        });
     });
 
     describe('textToHex', () => {

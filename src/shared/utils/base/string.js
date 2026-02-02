@@ -17,6 +17,9 @@ function escapeTagRecursive(obj) {
     if (typeof obj === 'string') {
         return escapeTag(obj);
     }
+    if (obj === null) {
+        return obj;
+    }
     if (typeof obj === 'object') {
         for (const key in obj) {
             obj[key] = escapeTagRecursive(obj[key]);
