@@ -861,8 +861,8 @@ export const useFriendStore = defineStore('Friend', () => {
      * @returns {Promise<void>}
      */
     async function refreshFriendsList() {
-        // If we just got user less then 2 min before code call, don't call it again
-        if (updateLoopStore.nextCurrentUserRefresh < 300) {
+        // Refresh current user if the last refresh was over 2 minutes ago.
+        if (updateLoopStore.nextCurrentUserRefresh <= 180) {
             await userStore.getCurrentUser();
         }
         await refreshFriends();
