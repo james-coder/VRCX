@@ -38,10 +38,13 @@ export function request(endpoint, options) {
     const notificationStore = useNotificationStore();
     const updateLoopStore = useUpdateLoopStore();
     const uiStore = useUiStore();
+    const normalizedEndpoint = endpoint.startsWith('/')
+        ? endpoint.slice(1)
+        : endpoint;
     if (
         !watchState.isLoggedIn &&
-        endpoint.startsWith('/auth') &&
-        endpoint !== 'config'
+        normalizedEndpoint.startsWith('auth') &&
+        normalizedEndpoint !== 'config'
     ) {
         throw `API request blocked while logged out: ${endpoint}`;
     }
@@ -105,8 +108,8 @@ export function request(endpoint, options) {
         .then((response) => {
             if (
                 !watchState.isLoggedIn &&
-                endpoint.startsWith('/auth') &&
-                endpoint !== 'config'
+                normalizedEndpoint.startsWith('auth') &&
+                normalizedEndpoint !== 'config'
             ) {
                 throw `API request blocked while logged out: ${endpoint}`;
             }
