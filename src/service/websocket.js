@@ -87,12 +87,11 @@ function connectWebSocket(token) {
             type: 'error',
             text: 'WebSocket Error'
         }).show();
-        socket.onclose(
-            new CloseEvent('close', {
-                code: 1006, // Abnormal Closure
-                reason: 'WebSocket Error'
-            })
-        );
+        try {
+            socket.close();
+        } catch (err) {
+            console.error('Error closing WebSocket:', err);
+        }
     };
     socket.onmessage = ({ data }) => {
         try {
@@ -104,9 +103,18 @@ function connectWebSocket(token) {
             let json;
             try {
                 json = JSON.parse(data);
-                json.content = JSON.parse(json.content);
+                if (typeof json.content === 'string') {
+                    try {
+                        json.content = JSON.parse(json.content);
+                    } catch {
+                        // ignore content parse error
+                    }
+                }
             } catch {
                 // ignore parse error
+            }
+            if (!json) {
+                return;
             }
             handlePipeline({
                 json
