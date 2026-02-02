@@ -1,8 +1,12 @@
-const localizedStringsUrls = import.meta.glob('./*.json', {
-    eager: true,
-    query: '?url',
-    import: 'default'
-});
+const importMetaGlob = import.meta?.glob;
+const localizedStringsUrls =
+    typeof importMetaGlob === 'function'
+        ? importMetaGlob('./*.json', {
+              eager: true,
+              query: '?url',
+              import: 'default'
+          })
+        : {};
 
 async function fetchJson(url) {
     const response = await fetch(url);
@@ -14,6 +18,9 @@ async function fetchJson(url) {
 
 async function getLocalizedStrings(code) {
     const fallbackUrl = localizedStringsUrls['./en.json'];
+    if (!fallbackUrl) {
+        return {};
+    }
     const localizedStringsUrl =
         localizedStringsUrls[`./${code}.json`] || fallbackUrl;
 
@@ -29,10 +36,13 @@ async function getLocalizedStrings(code) {
     return localizedStrings;
 }
 
-const languageNames = import.meta.glob('./*.json', {
-    eager: true,
-    import: 'language'
-});
+const languageNames =
+    typeof importMetaGlob === 'function'
+        ? importMetaGlob('./*.json', {
+              eager: true,
+              import: 'language'
+          })
+        : {};
 
 function getLanguageName(code) {
     return String(languageNames[`./${code}.json`] ?? code);

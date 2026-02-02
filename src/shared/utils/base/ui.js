@@ -22,11 +22,21 @@ const DEFAULT_THEME_COLOR_KEY = 'default';
 
 const APP_FONT_LINK_ATTR = 'data-app-font';
 
+function resolveThemeHref(file) {
+    if (!file) {
+        return null;
+    }
+    try {
+        return new URL(`../../../styles/themes/${file}`, import.meta.url).href;
+    } catch (error) {
+        console.warn('Failed to resolve theme URL', error);
+        return null;
+    }
+}
+
 const themeColors = THEME_COLORS.map((theme) => ({
     ...theme,
-    href: theme.file
-        ? new URL(`../../../styles/themes/${theme.file}`, import.meta.url).href
-        : null
+    href: resolveThemeHref(theme.file)
 }));
 
 const currentThemeColor = ref(DEFAULT_THEME_COLOR_KEY);
@@ -138,10 +148,11 @@ function applyThemeModeStyle(themeMode) {
         return;
     }
 
-    const themeHref = new URL(
-        `../../../styles/themes/${themeFile}`,
-        import.meta.url
-    ).href;
+    const themeHref = resolveThemeHref(themeFile);
+    if (!themeHref) {
+        styleEl?.remove();
+        return;
+    }
 
     if (!styleEl) {
         styleEl = document.createElement('link');

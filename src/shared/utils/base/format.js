@@ -15,7 +15,11 @@ function getTimeUnitLabel(unit) {
         return unit;
     }
     const t = i18n?.global?.t;
-    return typeof t === 'function' ? t(key) : unit;
+    if (typeof t !== 'function') {
+        return unit;
+    }
+    const translated = t(key);
+    return translated === key ? unit : translated;
 }
 
 /**
@@ -52,7 +56,9 @@ function timeToText(sec, isNeedSeconds = false) {
     }
     if (isNeedSeconds || (arr.length === 0 && n < 60)) {
         // round to 5 seconds
-        n = Math.floor((n + 2.5) / 5) * 5;
+        if (n >= 5) {
+            n = Math.floor((n + 2.5) / 5) * 5;
+        }
         arr.push(`${n}${getTimeUnitLabel('s')}`);
     }
     return arr.join(' ');

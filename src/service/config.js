@@ -160,6 +160,8 @@ class ConfigRepository {
 }
 
 var self = new ConfigRepository();
-window.configRepository = self;
+if (typeof window !== 'undefined') {
+    window.configRepository = self;
+}
 
 export { self as default, ConfigRepository };

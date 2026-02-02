@@ -1,4 +1,8 @@
-import { createRouter, createWebHashHistory } from 'vue-router';
+import {
+    createRouter,
+    createMemoryHistory,
+    createWebHashHistory
+} from 'vue-router';
 
 import { watchState } from './../service/watchState';
 
@@ -113,8 +117,13 @@ const routes = [
     }
 ];
 
+const history =
+    typeof location === 'undefined'
+        ? createMemoryHistory()
+        : createWebHashHistory();
+
 export const router = createRouter({
-    history: createWebHashHistory(),
+    history,
     // @ts-ignore
     routes
 });

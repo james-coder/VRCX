@@ -154,5 +154,7 @@ const database = {
     }
 };
 
-window.database = database;
+if (typeof window !== 'undefined') {
+    window.database = database;
+}
 export { database, dbVars };

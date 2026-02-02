@@ -127,6 +127,8 @@ class GameLogService {
 }
 
 var self = new GameLogService();
-window.gameLogService = self;
+if (typeof window !== 'undefined') {
+    window.gameLogService = self;
+}
 
 export { self as default, GameLogService as LogWatcherService };

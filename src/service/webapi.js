@@ -46,6 +46,8 @@ class WebApiService {
 }
 
 var self = new WebApiService();
-window.webApiService = self;
+if (typeof window !== 'undefined') {
+    window.webApiService = self;
+}
 
 export { self as default, WebApiService };

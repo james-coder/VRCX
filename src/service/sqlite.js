@@ -82,6 +82,8 @@ class SQLiteService {
 }
 
 var self = new SQLiteService();
-window.sqliteService = self;
+if (typeof window !== 'undefined') {
+    window.sqliteService = self;
+}
 
 export { self as default, SQLiteService };

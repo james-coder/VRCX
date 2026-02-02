@@ -22,8 +22,10 @@ const AppDebug = reactive({
     websocketDomainVrchat: 'wss://pipeline.vrchat.cloud'
 });
 
-window.$debug = AppDebug;
-window.utils = utils;
-window.dayjs = dayjs;
+if (typeof window !== 'undefined') {
+    window.$debug = AppDebug;
+    window.utils = utils;
+    window.dayjs = dayjs;
+}
 
 export { AppDebug };
